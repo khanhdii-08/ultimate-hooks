@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-const TodoForm = ({ addTodo }) => {
+import { ThemeContext } from "../contexts/ThemeContext";
+import { TodoContext } from "../contexts/TodoContext";
+const TodoForm = () => {
   const [title, setTitle] = useState("");
 
-  const style = {
-    background: "rgb(240, 240, 240)",
-    color: "black",
-  };
+  const { theme } = useContext(ThemeContext);
+
+  const { isLightTheme, light, dark } = theme;
+
+  const style = isLightTheme ? light : dark;
+
+  const { addTodo } = useContext(TodoContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();

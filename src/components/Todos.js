@@ -1,30 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { TodoContext } from "../contexts/TodoContext";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
 
 const Todos = () => {
-  const [todos, setTodos] = useState([
-    { id: 1, title: "Viec 1" },
-    { id: 2, title: "Viec 2" },
-    { id: 3, title: "Viec 3" },
-  ]);
+  const { todos } = useContext(TodoContext);
 
-  const addTodo = (todo) => {
-    setTodos([...todos, todo]);
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <div className="todo-list">
-      <TodoForm addTodo={addTodo} />
-      <ul>
-        {todos.map((todo) => (
-          <TodoItem todo={todo} deleteTodo={deleteTodo} key={todo.id} />
-        ))}
-      </ul>
+      <TodoForm />
+      {isAuthenticated ? (
+        <ul>
+          {todos.map((todo) => (
+            <TodoItem todo={todo} key={todo.id} />
+          ))}
+        </ul>
+      ) : (
+        <p style={{ textAlign: "center" }}>Not authenticated</p>
+      )}
     </div>
   );
 };
