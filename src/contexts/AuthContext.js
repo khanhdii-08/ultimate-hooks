@@ -1,13 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { authReducer } from "../reducers/AuthReducer";
 
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-  const [isAuthenticated, setAuthenyicated] = useState(false);
+  // const [isAuthenticated, setAuthenyicated] = useState(false);
 
-  const toggleAuth = () => {
-    setAuthenyicated(!isAuthenticated);
-  };
+  const [isAuthenticated, dispatch] = useReducer(authReducer, false);
 
   useEffect(() => {
     alert(
@@ -19,7 +18,7 @@ const AuthContextProvider = ({ children }) => {
 
   const authContextData = {
     isAuthenticated,
-    toggleAuth,
+    dispatch,
   };
 
   return (
