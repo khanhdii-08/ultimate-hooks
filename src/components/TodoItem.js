@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { TodoContext } from "../contexts/TodoContext";
+import { DELETE_TODO } from "../reducers/types";
 
 const TodoItem = ({ todo }) => {
   //   const todo = props.todo;
@@ -10,13 +11,18 @@ const TodoItem = ({ todo }) => {
   const { isLightTheme, light, dark } = theme;
 
   const style = isLightTheme ? light : dark;
-  const { deleteTodo } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
 
   return (
     <li
       style={style}
       onClick={() => {
-        deleteTodo(todo.id);
+        dispatch({
+          type: DELETE_TODO,
+          payload: {
+            id: todo.id,
+          },
+        });
       }}
     >
       {todo.title}
